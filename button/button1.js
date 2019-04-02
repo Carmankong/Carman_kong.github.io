@@ -1,7 +1,7 @@
 console.log("button1 js called");
 
 class Button{
-    constructor(text, x, y, w, h, stroke, fill, textC, over, canvas){
+    constructor(text, x, y, w, h, stroke, fill, textC, over, canvas, target, tC){
         this.x = x;
         this.y = y;
         this.w = w;
@@ -11,7 +11,10 @@ class Button{
         this.textC = textC;
         this.text = text;
         this.over = over;
-        this.randomcol = ""
+        this.target = target;
+        this.tC = tC;
+
+
 
         //delcare that the mouse location starts at 0
         this.xMouse = 0;
@@ -28,8 +31,10 @@ class Button{
 
     mClick(e){
         if(this.rectBound == true){
-            this.click = true;
-            this.makeRandomColor()
+            
+            Button.selected = this;
+            this.target.setColour(this.tC);
+            //this.makeRandomColor()
         }
     }
 
@@ -46,22 +51,24 @@ class Button{
         }
 
     draw(){
-        if(this.rectBound ){
+        if(Button.selected == this  ){
+            ctx.fillStyle = "rgb(255,255,255)"
+           
+        }
+        else if( this.rectBound ){
             ctx.fillStyle = this.over;
-        }else if(this.click){
-            //ctx.fillStyle =  new_colour;
-
+           
+        }else{
+            ctx.fillStyle = this.fill
         }
-        else{
-            ctx.fillStyle = this.fill;
-        }
-
+        
         ctx.beginPath();
         ctx.rect(this.x, this.y, this.w, this.h);
         // ctx.fillText(this.text, this.w/2,this.h/2 );
         ctx.strokeStyle = this.stroke;
-        ctx.stroke();
+        ctx.lineWidth = 10;
         ctx.fill();
+        ctx.stroke();
 
     }
 
@@ -83,7 +90,7 @@ class Button{
     }
 
     
-
+/*
     makeRandomColor(){
         var R = Math.round(255*Math.random());
         var G = Math.round(255*Math.random());
@@ -92,7 +99,8 @@ class Button{
         console.log(new_colour);
         return new_colour;
     }
-
+*/
 
 
 }
+Button.selected = "";
